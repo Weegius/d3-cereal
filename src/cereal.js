@@ -1,10 +1,9 @@
-import React from "react";
-import data from "./data/cereal.json";
+import React, { useEffect } from "react";
+import data from "./data/cereal";
 import * as d3 from "d3";
 import { useD3 } from "./useD3";
 
-const topCereal = data.sort((a, b) => b.rating - a.rating).splice(0, 5);
-console.log(topCereal);
+const topCereal = data.sort((a, b) => b.rating - a.rating).filter((_, index) => index < 5);
 
 function BarChart() {
   const ref = useD3(
@@ -49,7 +48,7 @@ function BarChart() {
         .attr("width", xScale.bandwidth())
         .attr("y", (topCereal) => yScale(topCereal.protein))
         .attr("height", (topCereal) => yScale(0) - yScale(topCereal.protein))
-        .attr('fill', (d, i) => colors[i]);
+        .attr("fill", (d, i) => colors[i]);
     },
     [JSON.stringify(data)]
   );

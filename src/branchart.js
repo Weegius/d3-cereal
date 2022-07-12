@@ -1,33 +1,34 @@
-import React from "react";
-import data from "./data/cereal.json";
+import React, { useEffect, useState } from "react";
+import data from "./data/cereal";
 import * as d3 from "d3";
 import { useD3 } from "./useD3";
 
-data = data.sort((a, b) => (a.rating > b.rating) ? 1 : -1)[0];
-      data = [
-        {
-          name: 'Protein',
-          amount: data.protein,
-        },
-        {
-          name: 'Fat',
-          amount: data.fat,
-        },
-        {
-          name: 'Fiber',
-          amount: data.fiber,
-        },
-        {
-          name: 'Carbs',
-          amount: data.carbo,
-        },
-        {
-          name: 'Sugars',
-          amount: data.sugars,
-        },
-      ]
-
 function BranChart() {
+  let newData = data.sort((a, b) => (a.rating < b.rating ? 1 : -1))[0];
+
+  newData = [
+    {
+      name: "Protein",
+      amount: newData.protein,
+    },
+    {
+      name: "Fat",
+      amount: newData.fat,
+    },
+    {
+      name: "Fiber",
+      amount: newData.fiber,
+    },
+    {
+      name: "Carbs",
+      amount: newData.carbo,
+    },
+    {
+      name: "Sugars",
+      amount: newData.sugars,
+    },
+  ];
+  console.log(newData)
   const ref = useD3(
     (svg) => {
       const height = 500;
@@ -37,13 +38,13 @@ function BranChart() {
 
       const xScale = d3
         .scaleBand()
-        .domain(data.map((d) => d.name))
+        .domain(newData.map((d) => d.name))
         .range([margin.left, width])
         .padding(0.125);
 
       const yScale = d3
         .scaleLinear()
-        .domain([0, d3.max(data, (d) => d.amount)])
+        .domain([0, d3.max(newData, (d) => d.amount)])
         .rangeRound([height - margin.bottom, margin.top]);
 
       const bottomAxis = d3.axisBottom(xScale);
@@ -62,7 +63,7 @@ function BranChart() {
       svg
         .select(".plot-area")
         .selectAll(".bar")
-        .data(data)
+        .data(newData)
         .enter()
         .append("rect")
         .attr("class", "bar")
@@ -70,9 +71,9 @@ function BranChart() {
         .attr("width", xScale.bandwidth())
         .attr("y", (d) => yScale(d.amount))
         .attr("height", (d) => yScale(0) - yScale(d.amount))
-        .attr('fill', (d, i) => colors[i]);
+        .attr("fill", (d, i) => colors[i]);
     },
-    [JSON.stringify(data)]
+    [JSON.stringify(newData)]
   );
 
   return (
@@ -93,4 +94,3 @@ function BranChart() {
 }
 
 export default BranChart;
-
