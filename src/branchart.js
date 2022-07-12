@@ -4,7 +4,6 @@ import * as d3 from "d3";
 import { useD3 } from "./useD3";
 
 data = data.sort((a, b) => (a.rating > b.rating) ? 1 : -1)[0];
-      const title = data.name;
       data = [
         {
           name: 'Protein',
