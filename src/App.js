@@ -13,7 +13,7 @@ function App() {
     >
       <h1>Top 5 Cereals and the amount of protein in each</h1>
       <Cereal />
-      <h1>Bran Cereal Nutrition </h1>
+      <h1>The Top Cereal Nutrition Info </h1>
       <BranChart />
     </Flex>
   );
